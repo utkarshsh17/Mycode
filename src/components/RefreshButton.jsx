@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useJobsData } from '../contexts/JobsDataContext';
 import { useCompanies } from '../contexts/CompaniesContext';
+import { Tooltip } from './Tooltip';
 
 const RefreshButton = ({ showLabel = true, className = '' }) => {
   const { forceRefresh: refreshJobs, getCacheAge: getJobsCacheAge, loading: jobsLoading } = useJobsData();
@@ -35,6 +36,7 @@ const RefreshButton = ({ showLabel = true, className = '' }) => {
 
   return (
     <div className={`flex items-center gap-2 ${className}`}>
+      <Tooltip text={`Last updated: ${formatCacheAge()}`} position="bottom">
       <button
         onClick={handleRefresh}
         disabled={isLoading}
@@ -46,7 +48,6 @@ const RefreshButton = ({ showLabel = true, className = '' }) => {
             : 'bg-primary-600 hover:bg-primary-700 text-white shadow-md hover:shadow-lg active:scale-95'
           }
         `}
-        title={`Last updated: ${formatCacheAge()}`}
       >
         <svg
           className={`w-5 h-5 ${isLoading ? 'animate-spin' : ''}`}
@@ -67,6 +68,7 @@ const RefreshButton = ({ showLabel = true, className = '' }) => {
           </span>
         )}
       </button>
+      </Tooltip>
 
       {showLabel && !isLoading && (
         <span className="text-xs text-gray-500 dark:text-gray-400">
